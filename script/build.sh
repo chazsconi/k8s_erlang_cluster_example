@@ -6,3 +6,5 @@ docker build \
   --build-arg SKIP_PHOENIX=true \
   -t chazsconi/k8s-example:latest \
   .
+
+  docker push chazsconi/k8s-example:latest

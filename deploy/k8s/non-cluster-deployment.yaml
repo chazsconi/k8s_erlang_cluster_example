@@ -5,7 +5,6 @@ metadata:
   name: k8s-example-deployment
   labels:
     app: k8s-example
-  namespace: default
 spec:
   replicas: 1
   selector:

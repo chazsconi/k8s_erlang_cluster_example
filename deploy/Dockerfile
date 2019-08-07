@@ -39,10 +39,13 @@ RUN apk update && \
   mix local.rebar --force && \
   mix local.hex --force
 
-# This copies our app source code into the build container
-COPY . .
+# Optimize fetching of deps into a separate layer
+COPY mix.* ./
 
 RUN mix do deps.get, deps.compile, compile
+
+# This copies our app source code into the build container
+COPY . .
 
 # This step builds assets for the Phoenix app (if there is one)
 # If you aren't building a Phoenix app, pass `--build-arg SKIP_PHOENIX=true`
@@ -81,4 +84,5 @@ WORKDIR /opt/app
 
 COPY --from=builder /opt/built .
 
-CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} foreground
+# Pass the hostname as an env var so it can be used in vm.args
+CMD trap 'exit' INT; HOSTNAME_FQDN=$(hostname -f) /opt/app/bin/${APP_NAME} foreground
