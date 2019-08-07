@@ -1,0 +1,9 @@
+## This file provide the arguments provided to the VM at startup
+## You can find a full list of flags and their behaviours at
+## http://erlang.org/doc/man/erl.html
+
+## Name of the node
+-name <%= release_name %>@127.0.0.1
+
+## Cookie for distributed erlang
+-setcookie <%= release.profile.cookie %>
