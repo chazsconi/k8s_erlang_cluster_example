@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-example-deployment
+  labels:
+    app: k8s-example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-example
+  template:
+    metadata:
+      labels:
+        app: k8s-example
+    spec:
+      subdomain: k8s-example-erlang-cluster
+      containers:
+      - name: k8s-example
+        image: chazsconi/k8s-example
+        ports:
+        - containerPort: 4000
+        imagePullPolicy: Always
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-example-erlang-cluster
+spec:
+  ports:
+  # The port is not used by the service but it is needed to create A records for the pods
+  - port: 80
+    name: erlang-cluster
+  clusterIP: None
+  # Do not wait for the ready check
+  publishNotReadyAddresses: true
+  selector:
+    app: k8s-example
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: k8s-example-service
+spec:
+  type: NodePort
+  selector:
+    app: k8s-example
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 4000
+    # Specify a node port so we can expose this simply.  Alternatively use an Ingress
+    nodePort: 30000
