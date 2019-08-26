@@ -84,5 +84,4 @@ WORKDIR /opt/app
 
 COPY --from=builder /opt/built .
 
-# Pass the hostname as an env var so it can be used in vm.args
-CMD trap 'exit' INT; HOSTNAME_FQDN=$(hostname -f) /opt/app/bin/${APP_NAME} foreground
+CMD trap 'exit' INT; /opt/app/bin/${APP_NAME} foreground
