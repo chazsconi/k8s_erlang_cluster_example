@@ -7,15 +7,26 @@ defmodule K8SExample.Application do
   def start(_type, _args) do
     Logger.info("Starting app")
 
+    # topologies = [
+    #   example: [
+    #     strategy: Cluster.Strategy.Epmd,
+    #     config: [
+    #       hosts: [
+    #         :"node@k8s-example-statefulset-0.k8s-example-erlang-cluster.default.svc.cluster.local",
+    #         :"node@k8s-example-statefulset-1.k8s-example-erlang-cluster.default.svc.cluster.local",
+    #         :"node@k8s-example-statefulset-2.k8s-example-erlang-cluster.default.svc.cluster.local"
+    #       ]
+    #     ]
+    #   ]
+    # ]
+
     topologies = [
       example: [
-        strategy: Cluster.Strategy.Epmd,
+        strategy: Cluster.Strategy.Kubernetes.DNS,
         config: [
-          hosts: [
-            :"node@k8s-example-statefulset-0.k8s-example-erlang-cluster.default.svc.cluster.local",
-            :"node@k8s-example-statefulset-1.k8s-example-erlang-cluster.default.svc.cluster.local",
-            :"node@k8s-example-statefulset-2.k8s-example-erlang-cluster.default.svc.cluster.local"
-          ]
+          service: "k8s-example-erlang-cluster.default.svc.cluster.local",
+          application_name: "node",
+          polling_interval: 10_000
         ]
       ]
     ]

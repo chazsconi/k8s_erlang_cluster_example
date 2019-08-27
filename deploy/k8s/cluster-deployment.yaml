@@ -22,6 +22,15 @@ spec:
         ports:
         - containerPort: 4000
         imagePullPolicy: Always
+        env:
+        - name: REPLACE_OS_VARS
+          value: 'true'
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: NAME_SUFFIX
+          value: k8s-example-erlang-cluster.default.svc.cluster.local
       restartPolicy: Always
 ---
 apiVersion: v1
