@@ -20,8 +20,15 @@ spec:
         image: chazsconi/k8s-example:latest
         imagePullPolicy: Always
         env:
-        - name: REPLACE_OS_VARS
-          value: 'true'
+        - name: CLUSTER_TYPE
+          value: DISCOVERED_STATEFULSET
+        #   value: HARDCODED_STATEFULSET
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: ERLANG_CLUSTER_SERVICE_NAME
+          value: k8s-example-erlang-cluster
         ports:
         - containerPort: 4000
         imagePullPolicy: Always

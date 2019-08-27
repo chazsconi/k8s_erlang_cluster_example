@@ -72,6 +72,7 @@ FROM alpine:${ALPINE_VERSION}
 # The name of your application/release (required)
 ARG APP_NAME
 
+# N.B. bind-tools only required for debugging with dig
 RUN apk update && \
     apk add --no-cache \
       bash \

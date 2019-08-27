@@ -2,11 +2,8 @@
 ## You can find a full list of flags and their behaviours at
 ## http://erlang.org/doc/man/erl.html
 
-## Name of the node for Stateful set
-#-name node@${HOSTNAME_FQDN}
-
 ## Name of the node for Deployment
--name node@${POD_IP}
+-name node@${ERLANG_NAME}
 
 ## Cookie for distributed erlang
 -setcookie <%= release.profile.cookie %>
