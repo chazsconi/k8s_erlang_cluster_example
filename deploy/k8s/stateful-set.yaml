@@ -22,7 +22,7 @@ spec:
         env:
         - name: CLUSTER_TYPE
           value: DISCOVERED_STATEFULSET
-        #   value: HARDCODED_STATEFULSET
+          # value: HARDCODED_STATEFULSET
         - name: NAMESPACE
           valueFrom:
             fieldRef:
@@ -38,11 +38,11 @@ kind: Service
 metadata:
   name: k8s-example-erlang-cluster
 spec:
-  ports:
-  # The port is not used by the service but it is needed to create A records for the pods
-  - port: 80
-    name: erlang-cluster
+  type: ClusterIP
   clusterIP: None
+  ports:
+  # The port is not used by the service but it is needed to create SRV records for the statefulset
+  - port: 80
   # Do not wait for the ready check
   publishNotReadyAddresses: true
   selector:

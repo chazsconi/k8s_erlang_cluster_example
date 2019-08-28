@@ -32,21 +32,7 @@ defmodule K8SExample.Application do
     ]
   end
 
-  defp topologies("DEPLOYMENT") do
-    [
-      example: [
-        strategy: Cluster.Strategy.Kubernetes.DNSSRV,
-        config: [
-          service: "_erlang-cluster._tcp.#{System.get_env("ERLANG_CLUSTER_SERVICE_NAME")}",
-          namespace: System.get_env("NAMESPACE"),
-          application_name: "node",
-          polling_interval: 10_000
-        ]
-      ]
-    ]
-  end
-
-  defp topologies("DISCOVERED_STATEFULSET") do
+  defp topologies(cluster_type) when cluster_type in ["DEPLOYMENT", "DISCOVERED_STATEFULSET"] do
     [
       example: [
         strategy: Cluster.Strategy.Kubernetes.DNSSRV,
